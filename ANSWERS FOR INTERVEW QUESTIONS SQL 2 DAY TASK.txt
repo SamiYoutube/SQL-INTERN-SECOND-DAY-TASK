@@ -1,0 +1,72 @@
+ANSWERS FOR INTERVEW QUESTIONS
+-------------------------------------------
+
+1. Difference between NULL and 0?
+
+NULL = no value, unknown, or missing.
+
+0 = a numeric value (zero).
+They are not the same: NULL ≠ 0.
+
+2. What is a default constraint?
+A default constraint provides an automatic value for a column when no value is supplied during INSERT.
+Example:
+
+Salary DECIMAL(10,2) DEFAULT 30000.00
+
+
+3. How does IS NULL work?
+IS NULL checks whether a column contains a NULL value.
+
+SELECT * FROM Employees WHERE Email IS NULL;
+
+
+4. How do you update multiple rows?
+Use UPDATE with a condition that matches multiple rows.
+
+UPDATE Employees
+SET Salary = Salary + 5000
+WHERE Department = 'IT';
+
+
+5. Can we insert partial values?
+Yes ✅, if the missing columns allow NULL or have DEFAULT values.
+
+INSERT INTO Employees (EmployeeID, FirstName, LastName)
+VALUES (5, 'Anita', 'Rao');
+
+
+6. What happens if a NOT NULL field is left empty?
+The query will fail with an error, because NOT NULL columns must always have a value.
+
+7. How do you rollback a deletion?
+If inside a transaction, use ROLLBACK:
+
+BEGIN TRANSACTION;
+DELETE FROM Employees WHERE EmployeeID = 2;
+ROLLBACK; -- undo deletion
+
+
+👉 If committed, rollback is not possible unless backups exist.
+
+8. Can we insert values into specific columns only?
+Yes ✅, you must specify the column list:
+
+INSERT INTO Employees (EmployeeID, FirstName, LastName)
+VALUES (6, 'Vikram', 'Singh');
+
+
+9. How to insert values using SELECT?
+Use INSERT INTO … SELECT:
+
+INSERT INTO EmployeesBackup (EmployeeID, FirstName, LastName, Department, Salary)
+SELECT EmployeeID, FirstName, LastName, Department, Salary
+FROM Employees
+WHERE Department = 'Finance';
+
+
+10. What is ON DELETE CASCADE?
+It’s a referential action in a foreign key constraint.
+When the parent row is deleted, all related child rows are also deleted automatically.
+
+FOREIGN KEY (DeptID) REFERENCES Departments(DeptID) ON DELETE CASCADE
