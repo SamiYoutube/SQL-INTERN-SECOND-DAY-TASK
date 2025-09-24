@@ -1,0 +1,55 @@
+-- ==========================================
+-- Handling Missing Values with NULL and DEFAULT
+-- ==========================================
+
+
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Department VARCHAR(50) DEFAULT 'Unassigned',
+    Salary DECIMAL(10,2) DEFAULT 30000.00,
+    Email VARCHAR(100) NULL  -- can remain empty if not available
+);
+
+-- ==========================================
+-- INSERT: Using NULL and DEFAULT
+-- ==========================================
+
+-- Employee with complete info
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Department, Salary, Email)
+VALUES (1, 'Amit', 'Sharma', 'Finance', 55000.00, 'amit.sharma@example.com');
+
+-- Employee with missing department → will take DEFAULT 'Unassigned'
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Salary, Email)
+VALUES (2, 'Priya', 'Verma', 48000.00, 'priya.verma@example.com');
+
+-- Employee with missing salary and email → DEFAULT salary applied, NULL email stored
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Department)
+VALUES (3, 'Rahul', 'Mehta', 'IT');
+
+-- Employee with missing department & salary → both defaults applied
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Email)
+VALUES (4, 'Sneha', 'Patel', 'sneha.patel@example.com');
+
+-- ==========================================
+-- UPDATE: Fix missing data later
+-- ==========================================
+UPDATE Employees
+SET Email = 'rahul.mehta@example.com'
+WHERE EmployeeID = 3;
+
+UPDATE Employees
+SET Department = 'Marketing'
+WHERE EmployeeID = 2;
+
+-- ==========================================
+-- DELETE: Example if bad record inserted
+-- ==========================================
+DELETE FROM Employees
+WHERE EmployeeID = 4 AND Email IS NULL;
+
+-- ==========================================
+-- Final Result
+-- ==========================================
+SELECT * FROM Employees;
